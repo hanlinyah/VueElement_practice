@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登入成功(Vue+Element練習)</title>
+    <link href="../css/Brand_Element.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/element-plus"></script>
+    <script src="https://unpkg.com/@element-plus/icons-vue"></script>
+    <script src="https://unpkg.com/element-plus/dist/locale/zh-tw"></script>
+</head>
+<body>
+    <div id="app">
+        <h1 >{{username}}，歡迎您</h1>
+        <a href="./Brand.html"  style="display: block; text-align: right">簡易版</a>
+        <hr>
+
+        <el-form :inline="true" :model="searchForm" class="demo-form-inline">
+          <el-form-item label="品牌名稱">
+            <el-input v-model="searchForm.brandName" placeholder="品牌名稱"></el-input>
+          </el-form-item>
+            <el-form-item label="企業名稱">
+            <el-input v-model="searchForm.companyName" placeholder="企業名稱"></el-input>
+          </el-form-item>
+
+          <el-form-item label="狀態">
+            <el-select v-model="searchForm.status" placeholder="狀態">
+              <el-option label="啟用" value="1"></el-option>
+              <el-option label="禁用" value="0"></el-option>
+              <el-option label="全部" value=""></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="brandSearch_Submit">查詢</el-button>
+          </el-form-item>
+        </el-form>
+
+
+        <el-row>
+            <el-button type="danger" plain @click="deleteByIds">批量刪除</el-button>
+            <el-button type="primary" plain  @click="editBrandFormVisible = true">新增</el-button>
+        </el-row>
+
+
+        <el-dialog title="編輯資料" v-model="editBrandFormVisible">
+            <el-form :model="brand_form">
+                <el-form-item label="品牌名稱" :label-width="brandFormWidth" >
+                    <el-input v-model="brand_form.brandName" ></el-input>
+                </el-form-item>
+                <el-form-item label="企業名稱" :label-width="brandFormWidth">
+                    <el-input v-model="brand_form.companyName" ></el-input>
+                </el-form-item>
+                <el-form-item label="訂單" :label-width="brandFormWidth">
+                    <el-input v-model="brand_form.ordered" ></el-input>
+                </el-form-item>
+                <el-form-item label="品牌介紹"  :label-width="brandFormWidth">
+                    <el-input type="textarea" v-model="brand_form.description"></el-input>
+                </el-form-item>
+                <el-form-item label="狀態" :label-width="brandFormWidth" >
+                    <el-switch v-model="brand_form.status" active-value="1" inactive-value="0"></el-switch>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer"  align="center">
+                <el-button type="primary" @click="editBrandSubmit" >提交</el-button>
+                <el-button @click="editBrandCancle">取消</el-button>
+            </div>
+        </el-dialog>
+
+        <hr>
+        <el-table
+                :data="tableData"
+                style="width: 100%"
+                :row-class-name="tableRowClassName"
+                @selection-change="handleSelectionChange">
+
+            <el-table-column
+                    type="selection"
+                    width="55">
+            </el-table-column>
+            <el-table-column
+                    type="index"
+                    label="列"
+                    width="70">
+            </el-table-column>
+            <el-table-column
+                    width="100"
+                    prop="brandName"
+                    label="品牌名稱"
+                    align="center">
+            </el-table-column>
+            <el-table-column
+                    width="150"
+                    prop="companyName"
+                    label="企業名稱"
+                    align="center">
+            </el-table-column>
+            <el-table-column
+                    prop="description"
+                    label="品牌介紹"
+                    align="center">
+            </el-table-column>
+            <el-table-column
+                    prop="ordered"
+                    label="訂單"
+                    align="center">
+            </el-table-column>
+
+            <el-table-column
+                    width="80"
+                    prop="statusStr"
+                    label="狀態"
+                    align="center">
+            </el-table-column>
+            <el-table-column
+                    width="200"
+                    label="操作"
+                    align="center">
+            <template #default="scope">
+                <el-button type="primary" @click="editdata( scope.row)">修改</el-button>
+                <el-button type="danger"  @click="deletebyid( scope.row)">刪除</el-button>
+                </template>
+            </el-table-column>
+
+        </el-table>
+
+        <hr>
+        <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="pages.currentpage"
+                background
+                :page-sizes="pageSizes"
+                :page-size="pages.pagesize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="totalRowInPages">
+        </el-pagination>
+
+
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="../js/Brand_Element.js"></script>
+
+</body>
+</html>

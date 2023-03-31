@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue Demo</title>
+</head>
+<body>
+<div id="demo">
+    <input  v-model="username">
+    {{username}}
+    <input type="button" value="按鈕" v-on:click="testtes(username+'hahaha')"><br>
+    <a :href="cccurl+'/1'" >1</a><br>
+    <a v-bind:href="cccurl">3</a><br>
+    <div v-if="username == 3">is 3</div>
+    <div v-else-if="username == 4">is 4</div>
+    <input type="button" value="按鈕" v-on:click="show()"><br>
+    <input type="button" value="按鈕" v-on:click="show2()"><br>
+    <div v-for="testd in test">
+        {{testd}}<br>
+    </div>
+    <div v-for="(testd,i) in test">
+        {{i+3}} {{testd}}<br>
+    </div>
+</div>
+
+<!--<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>-->
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script>
+    Vue.createApp({
+        data(){
+            return{
+               username:"",
+                cccurl:"http://www.google.com",
+                test:["AAA","BBB","CCC"]
+            }
+        },
+        methods:{
+            show(){
+                alert("1");
+            },
+            show2(){
+                alert("2");
+            },
+            testtes(text){
+                alert(text);
+            }
+        },
+        mounted(){
+             alert("mounted");
+        }
+    }).mount('#demo');
+
+</script>
+</body>
+</html>
