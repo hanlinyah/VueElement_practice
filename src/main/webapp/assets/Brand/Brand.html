@@ -1,0 +1,64 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>登入成功(Vue+Ajax練習)</title>
+</head>
+<body>
+
+<div id="showalldatawithvue">
+<h1 >{{username}}，歡迎您</h1>
+    <a href="./Brand_Element.html"  style="display: block; text-align: right">華麗版</a>
+<hr>
+    <h3>
+        <div v-if="insertupdatestatus==0">新增/修改數據</div>
+        <div v-if="insertupdatestatus==1">新增數據</div>
+        <div v-if="insertupdatestatus==2">修改數據</div>
+
+    </h3>
+    <input type="button" value="新增" @click="newbrand()">&nbsp;
+    <input type="button" value="取消" @click="cancleedit()">
+    <br>
+    <form v-show="editdatadisplay==1" action=""  method="post">
+        品牌名稱：<input name="brandName" v-model="brand.brandName"><br>
+        企業名稱：<input name="companyName"  v-model="brand.companyName"><br>
+        訂單：<input name="ordered" v-model="brand.ordered"><br>
+        品牌介紹：<textarea name="description" rows="5" cols="20"   v-model="brand.description"></textarea><br>
+        狀態：
+        <input type="radio" name="status" value="0" v-model="brand.status">禁用
+        <input type="radio" name="status" value="1" v-model="brand.status">啟用<br>
+        <input type="button" value="提交" id="submitBrand" @click="submitBrand()" >&nbsp;
+        <input type="reset" class="button" value="清除輸入"  >
+    </form>
+    <hr>
+    <table id="brandtable" border="1" cellspacing="0" width="100%">
+        <tr>
+            <th>序號</th>
+            <th>品牌名稱</th>
+            <th>企業名稱</th>
+            <th>訂單</th>
+            <th >品牌介紹</th>
+            <th width="5%">狀態</th>
+            <th width="10%">操作</th>
+        </tr>
+        <tr align="center"  v-for="(brand,i) in brands">
+             <td> {{i + 1}}  </td>
+             <td> {{brand.brandName}}        </td>
+             <td> {{brand.companyName}}      </td>
+             <td> {{brand.ordered}}          </td>
+             <td> {{brand.description}}      </td>
+             <td v-if="brand.status==1">啟用  </td>
+             <td v-if="brand.status==0">禁用  </td>
+            <td><input type="button" value="修改"  name="Update" @Click="Updatedata(brand.id)">&nbsp;
+                <input type="button" value="刪除"  name="Delete" @Click="DeleteData(brand.id)">
+            </td>
+        </tr>
+
+    </table>
+</div>
+<hr>
+<a href="../index.jsp">回測試首頁</a><br>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="../js/Brand.js"></script>
+</body>
+</html>
